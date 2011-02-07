@@ -11,6 +11,7 @@ if( $mm_version < 3.5 ) {
 
 &WriteMakefile(
 	NAME         => 'Term::ReadKey',
+	LICENSE      => 'perl',
 	DISTNAME     => 'TermReadKey',
 	VERSION_FROM => 'ReadKey.pm',
         XSPROTOARG   => '-noprototypes',

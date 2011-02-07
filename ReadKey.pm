@@ -25,6 +25,9 @@ functions for working with terminals. One of the main goals is to have the
 functions as portable as possible, so you can just plug in "use
 Term::ReadKey" on any architecture and have a good likelyhood of it working.
 
+Version 2.30.02:
+Updated license.
+
 Version 2.30.01:
 Added handling of arrows, page up/down, home/end, insert/delete keys 
 under Win32. These keys emit xterm-compatible sequences.
@@ -215,7 +218,7 @@ Currently maintained by Jonathan Stowe <jns@gellyfish.com>
 
 package Term::ReadKey;
 
-$VERSION = '2.30.01';
+$VERSION = '2.30.02';
 
 require Exporter;
 require AutoLoader;
