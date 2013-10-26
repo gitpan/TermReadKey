@@ -1397,8 +1397,8 @@ void ReadMode(PerlIO *file,int mode)
 	/*warn("Mode set to %d.\n",mode);*/
 
 	if( firsttime ) {
-		hv_delete(filehash,(char*)&handle,sizeof(int),0);
-		hv_delete(modehash,(char*)&handle,sizeof(int),0);
+		(void*)hv_delete(filehash,(char*)&handle,sizeof(int),0);
+		(void*)hv_delete(modehash,(char*)&handle,sizeof(int),0);
 	} else {
 		if(!hv_store(modehash,(char*)&handle,sizeof(int),
 			newSViv(mode),0))
@@ -1892,6 +1892,8 @@ SetTerminalSize(width,height,xpix,ypix,file=STDIN)
 	{
 		RETVAL=SetTerminalSize(file,width,height,xpix,ypix);
 	}
+	OUTPUT:
+		RETVAL
 
 void
 GetSpeed(file=STDIN)

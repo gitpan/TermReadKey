@@ -1,10 +1,26 @@
- Term::ReadKey 2.30 - Change terminal modes, and perform non-blocking reads.
+ Term::ReadKey 2.31 - Change terminal modes, and perform non-blocking reads.
 
  Copyright (C) 1994-1999 Kenneth Albanowski. 
-               2001-2005 Jonathan Stowe and others
+               2001-2013 Jonathan Stowe and others
+
+This package is dual licensed.  You can either choose to license it under
+the original terms which were:
 
  Unlimited distribution and/or modification is allowed as long as this 
  copyright notice remains intact.
+
+Or the standard Perl terms:
+
+  This module is free software; you can redistribute it and/or modify it
+  under the terms of the Artistic License. For details, see the full
+  text of the license in the file "Artistic" that should have been provided
+  with the version of perl you are using.
+
+  This program is distributed in the hope that it will be useful, but
+  without any warranty; without even the implied warranty of merchantability
+  or fitness for a particular purpose.
+
+
 
 This module, ReadKey, provides ioctl control for terminals and Win32
 consoles so the input modes can be changed (thus allowing reads of a single
@@ -113,13 +129,18 @@ pairs and will modify the control character settings.
 Note that it is entirely possible that there are portability problems with
 the routines in ReadKey.xs. If you find any problems, including compilation
 failures, or control characters not supported by Set/GetControlChars,
-_please_ tell me about them, by mailing the maintainer at jns@gellyfish.com,
+_please_ tell me about them, by mailing the maintainer at jns@gellyfish.co.uk,
  or lastly contacting perl5-porters@perl.org. Any problems
 will get fixed if at all possible, but that's not going to happen if I don't
 know about them.
+
+The code is available at https://github.com/jonathanstowe/TermReadKey so
+as ever patches are kindly welcomed, especially for platforms such as 
+Windows that I am unable to test on.
 
 Oh, you may also be interested in the Configure.pm module. It provides tools
 to make porting stuff easier -- calling the compiler, finding headers, etc.
 It contains documentation inside it, and you are welcome to use it in your
 own modules. If you make use of it, I'd be grateful for a message sent to
 the above address.
+

@@ -1,6 +1,5 @@
-#
-#  $Id: ReadKey.pm,v 2.23 2005/01/11 21:16:31 jonathan Exp $
-#
+
+package Term::ReadKey;
 
 =head1 NAME
 
@@ -23,10 +22,7 @@ control over terminal driver modes (cbreak, raw, cooked, etc.,) support for
 non-blocking reads, if the architecture allows, and some generalized handy
 functions for working with terminals. One of the main goals is to have the
 functions as portable as possible, so you can just plug in "use
-Term::ReadKey" on any architecture and have a good likelyhood of it working.
-
-Version 2.30.02:
-Updated license.
+Term::ReadKey" on any architecture and have a good likelihood of it working.
 
 Version 2.30.01:
 Added handling of arrows, page up/down, home/end, insert/delete keys 
@@ -212,13 +208,49 @@ This call does nothing under Windows.
 
 Kenneth Albanowski <kjahds@kjahds.com>
 
-Currently maintained by Jonathan Stowe <jns@gellyfish.com>
+Currently maintained by Jonathan Stowe <jns@gellyfish.co.uk>
+
+=item SUPPORT
+
+The code is maintained at 
+
+     https://github.com/jonathanstowe/TermReadKey
+
+Please feel free to fork and suggest patches.
+
+
+=item LICENSE
+
+Prior to the 2.31 release the license statement was:
+
+ Copyright (C) 1994-1999 Kenneth Albanowski.
+                2001-2005 Jonathan Stowe and others
+
+                 Unlimited distribution and/or modification is allowed as long as this
+                  copyright notice remains intact.
+
+And was only stated in the README file.
+
+Because I believe the original author's intent was to be more open than the
+other commonly used licenses I would like to leave that in place. However if
+you or your lawyers require something with some more words you can optionally
+choose to license this under the standard Perl license:
+
+      This module is free software; you can redistribute it and/or modify it
+      under the terms of the Artistic License. For details, see the full
+      text of the license in the file "Artistic" that should have been provided
+      with the version of perl you are using.
+
+      This program is distributed in the hope that it will be useful, but
+      without any warranty; without even the implied warranty of merchantability
+      or fitness for a particular purpose.
+
 
 =cut
 
-package Term::ReadKey;
+use vars qw($VERSION);
 
-$VERSION = '2.30.02';
+$VERSION = '2.31';
 
 require Exporter;
 require AutoLoader;
@@ -250,7 +282,7 @@ bootstrap Term::ReadKey;
 
 # Should we use LINES and COLUMNS to try and get the terminal size?
 # Change this to zero if you have systems where these are commonly
-# set to erroneous values. (But if either are nero zero, they won't be
+# set to erroneous values. (But if either are near zero, they won't be
 # used anyhow.)
 
 $UseEnv = 1;
@@ -337,7 +369,7 @@ sub GetTerminalSize
     {
         my ($prog) = "resize";
 
-        # Workaround for Solaris path sillyness
+        # Workaround for Solaris path silliness
         if ( -f "/usr/openwin/bin/resize" ) {
             $prog = "/usr/openwin/bin/resize";
         }
@@ -370,8 +402,30 @@ sub GetTerminalSize
 
     if ( @results < 4 )
     {
-        die "Unable to get Terminal Size."
+        my ($prog) = "stty size";
+
+        my ($stty) = scalar(`$prog 2>/dev/null`);
+        if (
+            defined $stty
+            and (  $stty =~ /(\d+) (\d+)/ )
+          )
+        {
+            $results[0] = $2;
+			$results[1] = $1;
+			@results[ 2, 3 ] = ( 0, 0 );
+        }
+        else
+        {
+            @results = ();
+        }
+        push( @fail, "stty program" );
+    }
+
+    if ( @results != 4 )
+    {
+        warn "Unable to get Terminal Size."
           . join( "", map( " The $_ didn't work.", @fail ) );
+	return undef;
     }
 
     @results;

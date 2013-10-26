@@ -1,5 +1,3 @@
-# Term::ReadKey Makefile.PL Version 2.18
-# $Id: Makefile.PL,v 2.21 2004/03/02 20:28:11 jonathan Exp $
 
 use ExtUtils::MakeMaker;
 use Carp;
@@ -11,8 +9,18 @@ if( $mm_version < 3.5 ) {
 
 &WriteMakefile(
 	NAME         => 'Term::ReadKey',
-	LICENSE      => 'perl',
 	DISTNAME     => 'TermReadKey',
+    LICENSE      => 'perl',
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+        resources => {
+            repository => {
+                type => 'git',
+                url  => 'https://github.com/jonathanstowe/TermReadKey.git',
+                web  => 'https://github.com/jonathanstowe/TermReadKey',
+            },
+        },
+    },
 	VERSION_FROM => 'ReadKey.pm',
         XSPROTOARG   => '-noprototypes',
 	PM => { "ReadKey.pm" => '$(INST_LIBDIR)/ReadKey.pm'},
@@ -59,4 +67,13 @@ sub MY::test {
 sub MY::test_interactive
 {
     return "Fooo";
+}
+
+sub MY::pure_site_install
+{
+    my $self = shift;
+    my $new = $self->MM::test();
+       
+    $new .= "\n\t./register_module Your::Module";
+    return $new;
 }
