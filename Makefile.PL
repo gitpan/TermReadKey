@@ -12,6 +12,10 @@ if( $mm_version < 3.5 ) {
 	DISTNAME     => 'TermReadKey',
     LICENSE      => 'perl',
     META_MERGE => {
+        no_index  => {
+            file  => [qw(Configure.pm)],
+            package  => [qw(Configure)],
+        },
         'meta-spec' => { version => 2 },
         resources => {
             repository => {
@@ -45,10 +49,10 @@ sub MY::top_targets {
 	$_ .= "
 
 sgtty cchars.h: genchars.pl
-	\$(PERL) -I\$(PERL_LIB) genchars.pl
+	\$(PERL) -Mblib -I\$(PERL_LIB) genchars.pl
 
 distcc: genchars.pl
-	\$(PERL) -I\$(PERL_LIB) genchars.pl dist
+	\$(PERL) -Mblib -I\$(PERL_LIB) genchars.pl dist
 
 ReadKey.c: cchars.h
 
